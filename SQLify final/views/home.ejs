@@ -1,0 +1,38 @@
+<%- include('./partials/header') %>
+    <%- include('./partials/nav') %>
+        <div class="main w-full min-h-screen flex">
+            <%- include('./partials/sideNav') %>
+
+                <div class="w-[80%] min-h-screen bg-zinc-50 pt-28 px-8 pb-10 flex flex-col gap-6">
+                    <h1 class="text-4xl font-semibold">All Files</h1>
+                    <% if (user.files.length>0) { %>
+                     
+                 
+                    <div class="card-container flex gap-6 flex-wrap">
+                        <% user.files.forEach(file => { %>
+                            <a href="/chat/<%= file._id %>">
+                            <div class="card w-56 h-56 rounded-lg bg-zinc-200 p-3 flex flex-col justify-between">
+                                <div>
+                                    <h3 class="text-xl break-words font-medium"><%= file.originalName %>
+                                    </h3>
+    
+                                </div>
+                                <div>
+                                    <p class="text-sm font-medium">Size: <%= file.size %></p>
+                                    <p class="text-sm font-medium">Mime Type: <%= file.mimetype %></p>
+                                    <p class="text-sm font-medium">Upload Date: <%= new Date(file.uploadDate).toLocaleDateString('en-GB') %></p>
+                                </div>
+                            </div>
+                        </a>
+                        <% }) %>
+                    </div>
+                    <% } else {%>
+                        <p class="text-lg font-medium text-zinc-500">No files uploaded yet.</p>
+                    <% }  %>
+                     
+                </div>
+
+        </div>
+
+
+        <%- include('./partials/footer') %>

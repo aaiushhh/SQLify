@@ -1,0 +1,35 @@
+<%- include('./partials/header') %>
+    <div class="main w-full h-screen">
+
+        <h1 class="text-5xl text-center py-3 border-b-2 font-semibold">Welcome to SQLify</h1>
+        
+        <div id="regPage" class="w-80 rounded-xl bg-zinc-200 absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center py-6">
+            <h1 class="text-4xl font-semibold">Register Form</h1>
+
+            <form action="/register" method="POST" class="flex flex-col gap-5 mt-4 w-72 py-3">
+                <input type="text" class="p-2 text-sm outline-none rounded-md" name="username" placeholder="Enter Username ">
+                <input type="email" class="p-2 text-sm outline-none rounded-md" name="email" placeholder="Enter Email ">
+                <input type="password" class="p-2 text-sm outline-none rounded-md" name="password" placeholder="Enter Password ">
+                <input type="submit" value="Create an Account" class="bg-zinc-900 text-white p-2 rounded-md cursor-pointer">
+            </form>
+            <p class="text-xs">Already have Account? <button id="loginBtn" class="font-bold">
+                Login
+            </button></p>
+        </div>
+
+        <div id="loginPage" class="w-80 rounded-xl bg-zinc-200 absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center py-6">
+            <h1 class="text-4xl font-semibold">Login</h1>
+
+            <form action="/login" method="POST" class="flex flex-col gap-5 mt-4 w-72 py-3">
+                <input type="email" name="email" class="p-2 text-sm outline-none rounded-md" placeholder="Enter Email ">
+                <input type="password" name="password" class="p-2 text-sm outline-none rounded-md" placeholder="Enter Password ">
+                <input type="submit" value="Login" class="bg-zinc-900 text-white p-2 rounded-md cursor-pointer">
+            </form>
+            <p class="text-xs">Not have Account? <button id="regBtn" class="font-bold">
+                Sign-Up
+            </button></p>
+        </div>
+
+    </div>
+    <script src="./javascripts/script.js"></script>
+    <%- include('./partials/footer') %>

@@ -1,0 +1,80 @@
+<%- include('./partials/header') %>
+<%- include('./partials/nav') %>
+<div class="main w-full min-h-screen flex">
+    <%- include('./partials/sideNav') %>
+
+    <div class="w-[80%] min-h-screen bg-zinc-200 px-10 flex flex-col gap-8 ">
+        <div class="pt-28 flex flex-col gap-4 sticky bg-zinc-200 top-0">
+            <h1 class="text-3xl font-medium">Ask SQLify</h1>
+            <form id="queryForm" action="/query" method="POST" class="flex" onsubmit="submitForm(event)">
+                <input type="text" name="query" class="p-2 text-sm outline-none rounded-md w-full" placeholder="ask anything" required>
+                <input type="submit" value="Submit" class="bg-black text-white px-4 py-2 rounded-md cursor-pointer">
+            </form>
+        </div>
+
+        <div id="output" class="output">
+            <!-- Results will be appended here -->
+        </div>
+    </div>
+
+</div>
+
+<%- include('./partials/footer') %>
+
+<script>
+    async function submitForm(event) {
+        event.preventDefault(); // Prevent the default form submission
+
+        const form = event.target;
+        const formData = new FormData(form);
+        const query = formData.get('query');
+
+        // Send the query to the server
+        const response = await fetch('/query', {
+            method: 'POST',
+            body: JSON.stringify({ query }),
+            headers: { 'Content-Type': 'application/json' }
+        });
+
+        const data = await response.json();
+
+        // Display the results
+        const outputDiv = document.getElementById('output');
+        outputDiv.innerHTML = ''; // Clear previous results
+
+        // Show the SQL query
+        const queryElement = document.createElement('h2');
+        queryElement.classList.add('font-bold', 'text-2xl')
+        queryElement.textContent = `SQL Query: ${data.query}`;
+        outputDiv.appendChild(queryElement);
+
+        // Create a table for the results
+        const table = document.createElement('table');
+        table.classList.add('result-table', 'w-full', 'mt-4', 'border', 'border-gray-300');
+
+        // Create table header
+        const headerRow = document.createElement('tr');
+        for (let i = 0; i < data.result[0].length; i++) {
+            const th = document.createElement('th');
+            th.textContent = `Column ${i + 1}`; // Customize this if you have specific column names
+            th.classList.add('border', 'border-gray-300', 'p-2');
+            headerRow.appendChild(th);
+        }
+        table.appendChild(headerRow);
+
+        // Fill the table with results
+        data.result.forEach(row => {
+            const tr = document.createElement('tr');
+            row.forEach(cell => {
+                const td = document.createElement('td');
+                td.textContent = cell;
+                td.classList.add('border', 'border-gray-300', 'p-2');
+                tr.appendChild(td);
+            });
+            table.appendChild(tr);
+        });
+
+        // Append the table to the output div
+        outputDiv.appendChild(table);
+    }
+</script>
